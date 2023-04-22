@@ -6,8 +6,9 @@ export const ProtectedRoute = ({
   redirectTo,
 }: ProtectedRouteProps):JSX.Element => {
     const family = useFamilyContext()
+    //f (family.cod_familia == 0) {
   if (family.cod_familia == 0) {
     return <Navigate to={redirectTo} replace />;
   }
-  return <Outlet />;
+  return <Outlet/>;
 };

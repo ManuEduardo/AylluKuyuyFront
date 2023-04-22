@@ -8,7 +8,7 @@ export type LayoutNavFooterProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export type ModalWrapperProps = {
-  hidden: boolean;
+  visible: boolean;
   title?: string;
   onClose?: () => void;
 } & React.HTMLAttributes<HTMLDivElement>;
@@ -30,10 +30,29 @@ export interface Family {
   nombre: string;
 }
 
+export interface FamilyMember {
+  nombre: string;
+  apellido: string;
+  dni: number;
+  telefono: number;
+  rol: string;
+  discapacidad: boolean;
+}
+
+export const FakeFamilyMember: FamilyMember = {
+  nombre: "manuel",
+  apellido: "sanchez",
+  dni: 72032363,
+  telefono: 936933520,
+  rol: "lider",
+  discapacidad: false
+
+}
+
 export const EmptyFamily:Family = {
-  cod_familia : 0,
+  cod_familia : 1,
   contrasena : 0,
-  nombre : ""
+  nombre : "Torres Muñoz"
 }
 
 export const ROUTES = {
