@@ -62,6 +62,18 @@ export interface Item {
   existente: boolean;
 }
 
+export interface Paso{
+  paso: number
+  idPaso: number;
+  detalle: string
+}
+
+export const FakePaso: Paso = {
+  paso: 1,
+  idPaso: 424321,
+  detalle: "habia un gato muy grande y se murió por pelear con perros xd"
+}
+
 export const FakeItem: Item = {
   id_item: "fasdfa",
   nombre: "Agua",

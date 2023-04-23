@@ -1,6 +1,18 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Welcome, Register, Login, Home, FamilyPage, NotFound, MyHome, Zone, Bag } from "./pages";
+import {
+  Welcome,
+  Register,
+  Login,
+  Home,
+  FamilyPage,
+  NotFound,
+  MyHome,
+  Zone,
+  Bag,
+  Plan,
+  Resources
+} from "./pages";
 import { ROUTES } from "./models";
 import { ProtectedRoute, NavWrapper } from "./components";
 import { FamilyProvider } from "./context";
@@ -12,7 +24,7 @@ function App() {
     <BrowserRouter>
       <FamilyProvider>
         <Routes>
-        <Route path="/" element={<Navigate to={ROUTES.home}></Navigate>} />
+          <Route path="/" element={<Navigate to={ROUTES.home}></Navigate>} />
           <Route path={ROUTES.welcome} element={<Welcome />} />
           <Route path={ROUTES.login} element={<Login />} />
           <Route path={ROUTES.register} element={<Register />} />
@@ -20,11 +32,11 @@ function App() {
             <Route element={<NavWrapper />}>
               <Route path={ROUTES.home} element={<Home />} />
               <Route path={ROUTES.familyRoles} element={<FamilyPage />} />
-              <Route path={ROUTES.myHome} element={<MyHome/>} />
-              <Route path={ROUTES.zone} element={<Zone/>} />
-              <Route path={ROUTES.bag} element={<Bag/>} />
-              <Route path={ROUTES.plan} element={<h1>plan</h1>} />
-              <Route path={ROUTES.resources} element={<h1>recursos</h1>} />
+              <Route path={ROUTES.myHome} element={<MyHome />} />
+              <Route path={ROUTES.zone} element={<Zone />} />
+              <Route path={ROUTES.bag} element={<Bag />} />
+              <Route path={ROUTES.plan} element={<Plan/>} />
+              <Route path={ROUTES.resources} element={<Resources/>} />
             </Route>
           </Route>
 
