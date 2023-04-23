@@ -1,14 +1,59 @@
-import React, { useState } from "react";
-import { ModalWrapper } from "../../components";
-import { Paso, FakePaso } from "../../models";
+import React, { useEffect, useState } from "react";
+import { Loading, ModalWrapper } from "../../components";
+import { Paso, EmptyPaso } from "../../models";
 import imgMore from "../../assets/more.png";
 import imgDone from "../../assets/check.png";
+import imgDelete from "../../assets/delete.png";
+import { useFamilyContext } from "../../context/FamilyProvider";
+import { callAllSteps, addStep, deleteStep } from "./services";
 
 const Plan = (): JSX.Element => {
-  const plan: Array<Paso> = [FakePaso, FakePaso];
+  const family = useFamilyContext();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [plan, setPlan] = useState<Array<Paso>>([EmptyPaso])
+  const [newDetaiil, setNewDetaiil] = useState<string>("");
   const [isVisibleModal, setIsVisibleModal] = useState<boolean>(false);
-  const addPaso = () => {
-    setIsVisibleModal(false);
+
+  useEffect(() => {
+    queryAllSteps();
+  }, []);
+
+  const queryAllSteps = async () => {
+    setLoading(true);
+    await callAllSteps(family.cod_familia)
+      .then((data) => {
+        setPlan(data);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const addPaso = async () => {
+    setLoading(true);
+    await addStep(family.cod_familia, newDetaiil, )
+      .then((data) => {
+        const newStep:Paso = {
+          paso: plan.length + 1,
+          idPaso: data.idplan,
+          detalle: data.plan
+        } 
+        setPlan(plan.concat(newStep));
+        setIsVisibleModal(false);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const deleteStepQuery = async (id: number) => {
+    setLoading(true)
+    await deleteStep(family.cod_familia, id).then(() =>{
+      setPlan(plan.filter(step=>step.idPaso != id))
+    }).finally(() => setLoading(false));
+  }
+
+  const handleChangeDetail = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    event.preventDefault();
+    setNewDetaiil(event.target.value);
   };
   return (
     <div>
@@ -18,13 +63,16 @@ const Plan = (): JSX.Element => {
       <div className=" w-fit mx-auto">
         {plan.map((paso, index) => {
           return (
-            <div className=" m-6 flex justify-between gap-12">
+            <div className=" m-6 flex justify-between gap-12" key={paso.idPaso}>
               <h3 className="w-max my-auto text-center text-xl font-medium text-cyan-900">
                 Paso {index + 1}
               </h3>
               <p className=" w-full max-w-lg my-auto text-lg font-normal text-cyan-900">
                 {paso.detalle}
               </p>
+              <button onClick={() => deleteStepQuery(paso.idPaso)}>
+                  <img src={imgDelete} alt="eliminar" className=" w-6 mr-2" />
+                </button>
             </div>
           );
         })}
@@ -52,12 +100,14 @@ const Plan = (): JSX.Element => {
             id=""
             className=" block p-3 h-32 w-60 mx-auto my-6 resize-none text-lg text-center font-semibold rounded-2xl shadow-lg"
             placeholder="Detalle"
+            onChange={handleChangeDetail}
           />
         </div>
         <button className=" block mx-auto my-3" onClick={addPaso}>
           <img src={imgDone} alt="hecho" />
         </button>
       </ModalWrapper>
+      <Loading loading={loading} />
     </div>
   );
 };

@@ -1,17 +1,32 @@
-import React, { useState } from "react";
-import { Home, FakeHome } from "../../models";
+import React, { useEffect, useState } from "react";
+import { Home, EmptyHome } from "../../models";
 import imgMore from "../../assets/more.png";
 import imgCamera from "../../assets/camara.png";
 import imgUpLoad from "../../assets/subir.png";
+import { callInfoHouse } from "./services";
 import { useFamilyContext } from "../../context/FamilyProvider";
-import { ModalWrapper } from "../../components";
+import { ModalWrapper, Loading } from "../../components";
 
 const MyHome = (): JSX.Element => {
-  const myHome = FakeHome;
+  const [myHome, setMyHome] = useState<Home>(EmptyHome)
   const [isVisibleUpPhoto, setIsVisibleUpPhoto] = useState<boolean>(false);
   const [isVisibleExample, setIsVisibleExample] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const family = useFamilyContext();
+  useEffect(() => {
+    queryAllHomeInfo();
+  }, []);
+
+  const queryAllHomeInfo = async () => {
+    setLoading(true);
+    await callInfoHouse(family.cod_familia)
+      .then((data) => {
+        setMyHome(data);
+      })
+      .finally(() => setLoading(false));
+  };
+
   const closeModal = () => {
     setIsVisibleUpPhoto(false);
   };
@@ -33,7 +48,7 @@ const MyHome = (): JSX.Element => {
               <tr>
                 <td className="text-xl font-medium text-cyan-900">Código</td>
                 <td className="text-xl text-right font-medium text-yellow-400">
-                  {myHome.codigo}
+                  {myHome.codigo_familiar}
                 </td>
               </tr>
               <tr>
@@ -45,7 +60,7 @@ const MyHome = (): JSX.Element => {
               <tr>
                 <td className="text-xl font-medium text-cyan-900">Familia</td>
                 <td className="text-xl text-right font-medium text-yellow-400">
-                  {myHome.familia}
+                  {myHome.nombre_familia}
                 </td>
               </tr>
             </tbody>
@@ -130,6 +145,7 @@ const MyHome = (): JSX.Element => {
           }
         </div>
       </ModalWrapper>
+      <Loading loading={loading} />
     </div>
   );
 };

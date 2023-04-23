@@ -17,6 +17,10 @@ export type NavWrapperProps = {
   children: JSX.Element;
 };
 
+export type LoadingProps = {
+  loading: boolean;
+};
+
 export type ErrorMessageProps = ModalWrapperProps;
 
 export type ButtonDefaultProps = {
@@ -31,23 +35,35 @@ export interface Family {
 }
 
 export interface FamilyMember {
+  idintegrante: number;
+  idFamilia: number;
   nombre: string;
   apellido: string;
   dni: number;
   telefono: number;
-  rol: string;
-  discapacidad: boolean;
+  lider: boolean;
+  discapacitado: boolean;
+  mascota: boolean;
+  roles: string;
 }
 
 export interface Home {
   cantidad: number;
-  codigo: number;
+  codigo_familiar: number;
   lider: string;
-  familia: string;
+  nombre_familia: string;
 }
 
+export const EmptyHome: Home = {
+  cantidad: 0,
+  codigo_familiar: 0,
+  lider: "",
+  nombre_familia: "",
+};
+
 export interface ZoneModel {
-  id_zona: string;
+  idruta: number;
+  idfamilia: number;
   nombre: string;
   detalle: string;
   tipo: string;
@@ -58,57 +74,43 @@ export interface Item {
   nombre: string;
   fecha: string;
   caducable: boolean;
-  caduco: boolean
+  caduco: boolean;
   existente: boolean;
 }
 
-export interface Paso{
-  paso: number
+export interface Paso {
+  paso: number;
   idPaso: number;
-  detalle: string
+  detalle: string;
 }
 
-export const FakePaso: Paso = {
-  paso: 1,
-  idPaso: 424321,
-  detalle: "habia un gato muy grande y se murió por pelear con perros xd"
-}
+export const EmptyPaso: Paso = {
+  paso: 0,
+  idPaso: 0,
+  detalle: "",
+};
 
 export const FakeItem: Item = {
   id_item: "fasdfa",
   nombre: "Agua",
   fecha: "20/03/23",
   caducable: true,
-  caduco:true,
+  caduco: true,
   existente: true,
-};
-export const FakeHome: Home = {
-  cantidad: 5,
-  codigo: 42345,
-  lider: "Manuel",
-  familia: "Torres Muñoz",
-};
-
-export const FakeFamilyMember: FamilyMember = {
-  nombre: "manuel",
-  apellido: "sanchez",
-  dni: 72032363,
-  telefono: 936933520,
-  rol: "lider",
-  discapacidad: false,
 };
 
 export const EmptyFamily: Family = {
-  cod_familia: 1,
+  cod_familia: 0,
   contrasena: 0,
-  nombre: "Torres Muñoz",
+  nombre: "",
 };
 
-export const FakeZones: ZoneModel = {
-  id_zona: "kflsdjfal",
-  nombre: "Parque Olivos",
-  detalle: "Al frente del hospital",
-  tipo: "Principal",
+export const EmptyZone: ZoneModel = {
+  idruta: 0,
+  idfamilia: 0,
+  nombre: "",
+  detalle: "",
+  tipo: "",
 };
 
 export const ROUTES = {

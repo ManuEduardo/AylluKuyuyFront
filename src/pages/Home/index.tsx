@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import imgMore from "../../assets/more.png";
-import { Family, FamilyMember, ROUTES, FakeFamilyMember } from "../../models";
-import { useFamilyContext } from "../../context/FamilyProvider";
+import { Loading } from "../../components";
+import { callFamilyHome } from "./services";
+import { FamilyMember, ROUTES} from "../../models";
+import {
+  useFamilyContext,
+  useSetFamilyContext,
+} from "../../context/FamilyProvider";
 import { useNavigate } from "react-router-dom";
 
 const Home = (): JSX.Element => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   const family = useFamilyContext();
-  const familyMembers: Array<FamilyMember> = [];
+  const setFamily = useSetFamilyContext();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [familyMembers, setFamilyMembers] = useState<Array<FamilyMember>>([])
+
+  useEffect(() => {
+    queryFamily()
+  }, []);
+
+  const queryFamily = async()=>{
+    setLoading(true)
+    await callFamilyHome(family.cod_familia).then(data=>{
+      setFamily({
+        cod_familia: data.codigo_familiar,
+        contrasena: family.contrasena,
+        nombre: data.nombre_familia
+      })
+      setFamilyMembers(data.integrantes)
+    }).finally(() =>setLoading(false))
+  }
   return (
     <div className=" h-screen">
       <div className=" max-w-3xl mx-auto bg-sky-300 mb-12 py-16 rounded-b-full">
@@ -26,9 +49,10 @@ const Home = (): JSX.Element => {
       </div>
       {familyMembers.length == 0 ? (
         <div>
-
-          <button className="block p-6 mx-auto bg-yellow-400/80 rounded-full shadow-xl hover:scale-110 transition-transform"
-          onClick={()=>navigate(ROUTES.familyRoles)}>
+          <button
+            className="block p-6 mx-auto bg-yellow-400/80 rounded-full shadow-xl hover:scale-110 transition-transform"
+            onClick={() => navigate(ROUTES.familyRoles)}
+          >
             <img src={imgMore} alt="boton mas" />
           </button>
 
@@ -38,23 +62,30 @@ const Home = (): JSX.Element => {
         </div>
       ) : (
         <div className=" px-4">
-          <h2 className="pb-6 text-center text-2xl font-medium text-cyan-900">Integrantes</h2>
+          <h2 className="pb-6 text-center text-2xl font-medium text-cyan-900">
+            Integrantes
+          </h2>
           <div className=" p-4 bg-slate-100 mx-auto rounded-2xl shadow-xl">
-            <table className=" mx-auto border-separate border-spacing-x-20">
+            <table className=" mx-auto border-separate border-spacing-x-10">
               <tbody>
-                {familyMembers.map(member=>{
-                    return(
-                        <tr>
-                            <td className="text-xl font-medium text-cyan-900">{member.nombre}</td>
-                            <td className="text-xl font-medium text-yellow-400">{member.rol}</td>
-                        </tr>
-                    )
+                {familyMembers.map((member, i) => {
+                  return (
+                    <tr key={i}>
+                      <td className="text-xl font-medium text-cyan-900">
+                        <p className=" p-2">{member.nombre}</p>
+                      </td>
+                      <td className="text-xl font-medium text-yellow-400">
+                        <p className=" p-2">{member.roles}</p>
+                      </td>
+                    </tr>
+                  );
                 })}
               </tbody>
             </table>
           </div>
         </div>
       )}
+      <Loading loading={loading} />
     </div>
   );
 };
