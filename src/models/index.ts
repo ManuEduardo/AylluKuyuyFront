@@ -14,8 +14,8 @@ export type ModalWrapperProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export type NavWrapperProps = {
-    children: JSX.Element
-}
+  children: JSX.Element;
+};
 
 export type ErrorMessageProps = ModalWrapperProps;
 
@@ -39,21 +39,65 @@ export interface FamilyMember {
   discapacidad: boolean;
 }
 
+export interface Home {
+  cantidad: number;
+  codigo: number;
+  lider: string;
+  familia: string;
+}
+
+export interface ZoneModel {
+  id_zona: string;
+  nombre: string;
+  detalle: string;
+  tipo: string;
+}
+
+export interface Item {
+  id_item: string;
+  nombre: string;
+  fecha: string;
+  caducable: boolean;
+  caduco: boolean
+  existente: boolean;
+}
+
+export const FakeItem: Item = {
+  id_item: "fasdfa",
+  nombre: "Agua",
+  fecha: "20/03/23",
+  caducable: true,
+  caduco:true,
+  existente: true,
+};
+export const FakeHome: Home = {
+  cantidad: 5,
+  codigo: 42345,
+  lider: "Manuel",
+  familia: "Torres Muñoz",
+};
+
 export const FakeFamilyMember: FamilyMember = {
   nombre: "manuel",
   apellido: "sanchez",
   dni: 72032363,
   telefono: 936933520,
   rol: "lider",
-  discapacidad: false
+  discapacidad: false,
+};
 
-}
+export const EmptyFamily: Family = {
+  cod_familia: 1,
+  contrasena: 0,
+  nombre: "Torres Muñoz",
+};
 
-export const EmptyFamily:Family = {
-  cod_familia : 1,
-  contrasena : 0,
-  nombre : "Torres Muñoz"
-}
+export const FakeZones: ZoneModel = {
+  id_zona: "kflsdjfal",
+  nombre: "Parque Olivos",
+  detalle: "Al frente del hospital",
+  tipo: "Principal",
+};
 
 export const ROUTES = {
   login: "/login",

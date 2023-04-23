@@ -101,6 +101,7 @@ const FamilyPage = (): JSX.Element => {
       <h2 className=" mt-6 text-center text-xl font-medium text-cyan-900">
         "Click" para agregar a un familiar
       </h2>
+      
       <ModalWrapper
         visible={isVisibleModal}
         onClose={() => setIsVisibleModal(false)}
