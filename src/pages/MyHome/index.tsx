@@ -140,9 +140,7 @@ const MyHome = (): JSX.Element => {
         onClose={() => setIsVisibleExample(false)}
       >
         <div>
-          {
-            //foto
-          }
+          <img src="./mapa.jpg" alt="" />
         </div>
       </ModalWrapper>
       <Loading loading={loading} />

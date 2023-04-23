@@ -73,9 +73,9 @@ export interface Item {
   id_item: string;
   nombre: string;
   fecha: string;
-  caducable: boolean;
+  caduce: boolean;
   caduco: boolean;
-  existente: boolean;
+  //existente: boolean;
 }
 
 export interface Paso {
@@ -90,13 +90,12 @@ export const EmptyPaso: Paso = {
   detalle: "",
 };
 
-export const FakeItem: Item = {
-  id_item: "fasdfa",
-  nombre: "Agua",
-  fecha: "20/03/23",
-  caducable: true,
-  caduco: true,
-  existente: true,
+export const EmptyItem: Item = {
+  id_item: "",
+  nombre: "",
+  fecha: "",
+  caduce: false,
+  caduco: false,
 };
 
 export const EmptyFamily: Family = {

@@ -1,34 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ButtonBack, ButtonDefault, Loading } from "../../components";
-import {
-  useSetFamilyContext,
-} from "../../context/FamilyProvider";
+import { useSetFamilyContext } from "../../context/FamilyProvider";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { loguear } from "./services";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../models";
 import icon from "../../assets/icon.png";
 
 const Login = (): JSX.Element => {
+  const [codigo_familia, setCodigo_familia] = useLocalStorage<number>(
+    "codigo_familia",
+    0
+  );
   const navigate = useNavigate();
   const setFamily = useSetFamilyContext();
-  const [codigo_familia, setCodigo_familia] = useState<number>(0);
+  //const [codigo_familia, setCodigo_familia] = useState<number>(0);
   const [password, setPassword] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
   const ingresar = async () => {
     setLoading(true);
-    await loguear(codigo_familia, password).then((data) => {
-      if (data.error == false) {
-        setFamily({
-          cod_familia: codigo_familia,
-          contrasena: password,
-          nombre: "Familia",
-        });
-      }
-    }).then(() => {
-      setLoading(false)
-      navigate(ROUTES.home)
-    }).finally(() =>setLoading(false))
+    await loguear(codigo_familia, password)
+      .then((data) => {
+        if (data.error == false) {
+          setFamily({
+            cod_familia: codigo_familia,
+            contrasena: password,
+            nombre: "Familia",
+          });
+        }
+      })
+      .then(() => {
+        setLoading(false);
+        navigate(ROUTES.home);
+      })
+      .finally(() => {
+        setLoading(false);
+        console.log(codigo_familia)
+      });
   };
 
   const handleChangeCode = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +67,7 @@ const Login = (): JSX.Element => {
           />
           <input
             type="password"
+            pattern="[0-9]*"
             name=""
             id=""
             className=" block p-3 mb-8 mx-auto text-lg text-center font-semibold rounded-2xl shadow-lg"

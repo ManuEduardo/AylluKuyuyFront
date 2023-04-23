@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { NavWrapperProps, ROUTES } from "../models";
 import imgMenu from "../assets/menu.png";
 import imgLogo from "../assets/icon-bg.png";
 import imgExit from "../assets/delete.png";
 
 const NavWrapper = (): JSX.Element => {
+  const navigate = useNavigate();
   const [isMenuActivate, setIsMenuActivate] = useState<boolean>(false);
   const activeNavLink:
     | ((props: { isActive: boolean; isPending: boolean }) => string | undefined)
     | undefined = ({ isActive }) =>
     isActive ? "text-yellow-400" : " text-slate-50";
-  const exit = () => {};
+  const exit = () => {
+    localStorage.removeItem('codigo_familia');
+    navigate(ROUTES.welcome)
+  };
 
   return (
     <div className=" flex flex-col justify-between min-h-screen">

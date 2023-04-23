@@ -139,7 +139,7 @@ const Zone = (): JSX.Element => {
             >
               <option value="Prioridad">Prioridad</option>
               <option value="Principal">Principal</option>
-              <option value="noPrioridad">No prioridad</option>
+              <option value="No Prioridad">No prioridad</option>
             </select>
           </div>
           <button className=" block mx-auto my-3" onClick={addZoneQuery}>

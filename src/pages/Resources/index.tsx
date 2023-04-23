@@ -9,18 +9,18 @@ function Resources(): JSX.Element {
       </h2>
       <div className=" flex flex-col max-w-lg m-auto">
         <a
-          href="https://drive.google.com/file/d/15fMge6UkkN58IvC3RoIUEvrCngCQ2CWZ/view?usp=share_link "
+          href="https://drive.google.com/file/d/1nHyqYumM8wuHx3K84S1FMQMWAbqH6AH-/view?usp=sharing "
           target="_blank"
-          className=" underline decoration-solid font-light text-yellow-400"
+          className=" underline decoration-solid font-light text-yellow-400 m-6"
         >
           Imagenes para Mapa
         </a>
         <a
-          href="https://drive.google.com/file/d/1rhMO7ffsvVAGwfij40C3lQ0tI8rbkoRH/view?usp=share_link "
+          href="https://drive.google.com/file/d/1KjrsoN1dAWFDFDDbYpLasZvz5Kd8Kwf-/view?usp=sharing "
           target="_blank"
-          className=" underline decoration-solid font-light text-yellow-400"
+          className=" underline decoration-solid font-light text-yellow-400 m-6"
         >
-          Imagenes señales casa
+          Imagenes señales casa y Mapa
         </a>
       </div>
       <img src={icon} alt="logo" className=" w-60 mx-auto mt-16" />
