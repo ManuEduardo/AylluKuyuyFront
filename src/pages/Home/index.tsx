@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import imgMore from "../../assets/more.png";
 import { Loading } from "../../components";
 import { callFamilyHome } from "./services";
-import { FamilyMember, ROUTES} from "../../models";
+import { FamilyMember, ROUTES } from "../../models";
 import {
   useFamilyContext,
   useSetFamilyContext,
@@ -14,23 +14,25 @@ const Home = (): JSX.Element => {
   const family = useFamilyContext();
   const setFamily = useSetFamilyContext();
   const [loading, setLoading] = useState<boolean>(false);
-  const [familyMembers, setFamilyMembers] = useState<Array<FamilyMember>>([])
+  const [familyMembers, setFamilyMembers] = useState<Array<FamilyMember>>([]);
 
   useEffect(() => {
-    queryFamily()
+    queryFamily();
   }, []);
 
-  const queryFamily = async()=>{
-    setLoading(true)
-    await callFamilyHome(family.cod_familia).then(data=>{
-      setFamily({
-        cod_familia: data.codigo_familiar,
-        contrasena: family.contrasena,
-        nombre: data.nombre_familia
+  const queryFamily = async () => {
+    setLoading(true);
+    await callFamilyHome(family.cod_familia)
+      .then((data) => {
+        setFamily({
+          cod_familia: data.codigo_familiar,
+          contrasena: family.contrasena,
+          nombre: data.nombre_familia,
+        });
+        setFamilyMembers(data.integrantes);
       })
-      setFamilyMembers(data.integrantes)
-    }).finally(() =>setLoading(false))
-  }
+      .finally(() => setLoading(false));
+  };
   return (
     <div className=" h-screen">
       <div className=" max-w-3xl mx-auto bg-sky-300 mb-12 py-16 rounded-b-full">

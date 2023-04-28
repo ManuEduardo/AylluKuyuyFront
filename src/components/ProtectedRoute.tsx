@@ -1,15 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { ProtectedRouteProps } from "../models";
-import { useFamilyContext, useSetFamilyContext } from "../context/FamilyProvider";
+import { useSetFamilyContext } from "../context/FamilyProvider";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useEffect } from "react";
 
 export const ProtectedRoute = ({
   redirectTo,
 }: ProtectedRouteProps): JSX.Element => {
-  const family = useFamilyContext();
   const setFamily = useSetFamilyContext();
-  const [storageCodFam, setStorageCodFam] = useLocalStorage<number>(
+  const [storageCodFam, ] = useLocalStorage<number>(
     "codigo_familia",
     0
   );

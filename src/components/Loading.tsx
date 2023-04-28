@@ -1,5 +1,3 @@
-import React from 'react'
-import { ModalWrapper } from '.'
 import { LoadingProps } from '../models'
 import gifLoading from "../assets/loading.gif"
 

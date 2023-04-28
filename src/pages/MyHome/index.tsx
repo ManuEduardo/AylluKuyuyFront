@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Home, EmptyHome } from "../../models";
 import imgMore from "../../assets/more.png";
 import imgCamera from "../../assets/camara.png";
-import imgUpLoad from "../../assets/subir.png";
 import { callInfoHouse } from "./services";
 import { useFamilyContext } from "../../context/FamilyProvider";
 import { ModalWrapper, Loading } from "../../components";

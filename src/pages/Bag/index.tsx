@@ -41,9 +41,6 @@ const Bag = (): JSX.Element => {
       })
       .finally(() => setLoading(false));
   };
-  const checkItemQuery = async () => {
-    
-  }
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setNewName(event.target.value);

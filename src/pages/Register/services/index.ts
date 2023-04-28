@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { ZoneModel } from "../../../models";
 
 const URL = import.meta.env.VITE_URL_API;
 

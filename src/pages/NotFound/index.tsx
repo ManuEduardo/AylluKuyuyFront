@@ -1,4 +1,3 @@
-import React from "react";
 import { ButtonDefault } from "../../components";
 import { ROUTES } from "../../models";
 import icon from "../../assets/icon.png";

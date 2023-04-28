@@ -1,4 +1,3 @@
-import React from "react";
 import { ButtonDefault } from "../../components";
 import { ROUTES } from "../../models";
 import icon from "../../assets/icon.png";
@@ -16,6 +15,12 @@ const Welcome = (): JSX.Element => {
         </ButtonDefault>
       </div>
       <img src={icon} alt="logo" className=" w-60 mx-auto mt-16" />
+      <a
+        href="tel:+51 119"
+        className="block text-3xl font-semibold text-slate-50 mx-auto w-min my-6 bg-red-500 py-4 px-8 rounded-3xl hover:scale-110 hover:bg-red-600 transition-all shadow-2xl"
+      >
+        Llama al 119
+      </a>
       <div className=" mt-12 pb-12 h-full bg-cyan-900 rounded-t-3xl">
         <h1 className=" py-6 mx-4 text-center text-3xl font-bold text-slate-50">
           PLAN DE SEGURIDAD ANTE UN SISMO

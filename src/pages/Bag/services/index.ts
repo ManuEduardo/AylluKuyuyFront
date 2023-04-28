@@ -44,7 +44,7 @@ export const addItem = async (
   type responseTypeCheckt = {
     idzona: number;
   };
-  export const checktItem= async (id: number, value: boolean) => {
+  export const checktItem= async (id: number) => {
     const response: AxiosResponse<responseTypeCheckt> = await axios.delete(
       `${URL}/mochila/item?iditem=${id}`
     );

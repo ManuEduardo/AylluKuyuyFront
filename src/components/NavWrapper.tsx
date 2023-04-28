@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import { NavWrapperProps, ROUTES } from "../models";
+import { ROUTES } from "../models";
 import imgMenu from "../assets/menu.png";
 import imgLogo from "../assets/icon-bg.png";
 import imgExit from "../assets/delete.png";
@@ -13,8 +13,8 @@ const NavWrapper = (): JSX.Element => {
     | undefined = ({ isActive }) =>
     isActive ? "text-yellow-400" : " text-slate-50";
   const exit = () => {
-    localStorage.removeItem('codigo_familia');
-    navigate(ROUTES.welcome)
+    localStorage.removeItem("codigo_familia");
+    navigate(ROUTES.welcome);
   };
 
   return (
@@ -28,7 +28,13 @@ const NavWrapper = (): JSX.Element => {
         </h1>
         <img src={imgLogo} alt="logo" className=" w-8" />
       </div>
-      <div className={isMenuActivate ?`fixed left-0 top-0 w-screen h-screen z-40 bg-black bg-opacity-30 backdrop-blur`:""}>
+      <div
+        className={
+          isMenuActivate
+            ? `fixed left-0 top-0 w-screen h-screen z-40 bg-black bg-opacity-30 backdrop-blur`
+            : ""
+        }
+      >
         <aside
           className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full ${
             isMenuActivate && "translate-x-0"
@@ -109,9 +115,16 @@ const NavWrapper = (): JSX.Element => {
                     RECURSOS
                   </NavLink>
                 </li>
+                <a
+                  href="tel:+51 119"
+                  className="flex flex-col text-2xl font-semibold text-slate-50 py-2 px-4 mx-auto w-max bg-red-600 rounded-2xl hover:scale-110 hover:bg-green-500 transition-all shadow-2xl"
+                >
+                  <p>Llama al</p>
+                  <p className=" mx-auto">119</p>
+                </a>
               </ul>
               <button
-                className="block bg-red-500 w-full h-12 rounded-lg"
+                className="block bg-red-500 w-full h-12 rounded-lg text-2xl font-medium text-slate-50"
                 onClick={exit}
               >
                 Salir

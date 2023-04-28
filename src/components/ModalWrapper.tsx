@@ -1,4 +1,3 @@
-import React from "react";
 import { ModalWrapperProps } from "../models";
 import imgDelete from "../assets/delete.png";
 

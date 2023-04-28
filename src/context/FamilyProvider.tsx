@@ -1,9 +1,8 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import { createContext, useState, useContext, ReactNode } from "react";
 import {Family, EmptyFamily} from "../models";
-import useLocalStorage from "../hooks/useLocalStorage";
 
 const familyContext = createContext<Family>(EmptyFamily);
-const setFamilyContext = createContext((family:Family) => {});
+const setFamilyContext = createContext((family:Family) => {console.log(family)});
 const voidFamilyContext = createContext(()=>{});
 
 export const useFamilyContext = () => useContext(familyContext);

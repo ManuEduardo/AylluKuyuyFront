@@ -1,5 +1,4 @@
 import React from "react";
-import { ButtonDefaultProps } from "../models";
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {}
 
