@@ -26,7 +26,7 @@ const FamilyPage = (): JSX.Element => {
 
   const queryAllFamily = async () => {
     setLoading(true);
-    await callAllFamily(family.cod_familia)
+    await callAllFamily(family.codigo_familiar)
       .then((data) => {
         setFamilyMembers(data.integrante);
       })
@@ -43,7 +43,7 @@ const FamilyPage = (): JSX.Element => {
   const addMemberQuery = async () => {
     const lider: boolean = familyMembers.length == 0;
     await addMember(
-      family.cod_familia,
+      family.codigo_familiar,
       newName,
       newLast,
       newDni,

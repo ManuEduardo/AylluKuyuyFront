@@ -9,7 +9,7 @@ import icon from "../../assets/icon.png";
 
 const Login = (): JSX.Element => {
   const [codigo_familia, setCodigo_familia] = useLocalStorage<number>(
-    "codigo_familia",
+    "codigo_familiar",
     0
   );
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Login = (): JSX.Element => {
       .then((data) => {
         if (data.error == false) {
           setFamily({
-            cod_familia: codigo_familia,
+            codigo_familiar: codigo_familia,
             contrasena: password,
             nombre: "Familia",
           });

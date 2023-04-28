@@ -20,7 +20,7 @@ const Plan = (): JSX.Element => {
 
   const queryAllSteps = async () => {
     setLoading(true);
-    await callAllSteps(family.cod_familia)
+    await callAllSteps(family.codigo_familiar)
       .then((data) => {
         setPlan(data);
       })
@@ -29,7 +29,7 @@ const Plan = (): JSX.Element => {
 
   const addPaso = async () => {
     setLoading(true);
-    await addStep(family.cod_familia, newDetaiil, )
+    await addStep(family.codigo_familiar, newDetaiil, )
       .then((data) => {
         const newStep:Paso = {
           paso: plan.length + 1,
@@ -44,7 +44,7 @@ const Plan = (): JSX.Element => {
 
   const deleteStepQuery = async (id: number) => {
     setLoading(true)
-    await deleteStep(family.cod_familia, id).then(() =>{
+    await deleteStep(family.codigo_familiar, id).then(() =>{
       setPlan(plan.filter(step=>step.idPaso != id))
     }).finally(() => setLoading(false));
   }

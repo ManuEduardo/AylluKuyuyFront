@@ -31,7 +31,7 @@ const Register = (): JSX.Element => {
       .then((data) => {
         if (data.error == false) {
           setFamily({
-            cod_familia: newCode,
+            codigo_familiar: newCode,
             contrasena: newPass1,
             nombre: "Familia",
           });

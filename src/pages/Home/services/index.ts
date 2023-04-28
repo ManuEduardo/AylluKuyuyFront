@@ -9,7 +9,8 @@ type responseType = {
     integrantes:Array<FamilyMember>
 }
 
-export const callFamilyHome = async (code:number)=>{
+export const callFamilyHome = async ()=>{
+    const code = parseInt(localStorage.getItem("codigo_familiar") ?? "0")
     const response:AxiosResponse<responseType> = await axios.get(`${URL}/home?codigo_familiar=${code}`);
     return response.data
 }

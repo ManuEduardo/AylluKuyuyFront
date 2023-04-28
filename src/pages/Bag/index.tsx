@@ -5,7 +5,7 @@ import imgDone from "../../assets/check.png";
 import { useFamilyContext } from "../../context/FamilyProvider";
 import { Item, EmptyItem } from "../../models";
 import { ModalWrapper, Loading } from "../../components";
-import { addItem, callAllBag } from "./services";
+import { addItem, callAllBag, checktItem, deleteItem } from "./services";
 
 const Bag = (): JSX.Element => {
   const family = useFamilyContext();
@@ -15,6 +15,7 @@ const Bag = (): JSX.Element => {
   const [newName, setNewName] = useState<string>("");
   const [newCaducable, setCaducable] = useState<boolean>(false);
   const [newDate, setNewDate] = useState("");
+  const [checks, setChecks] = useState<Array<boolean>>()
 
   useEffect(() => {
     queryAllBag();
@@ -22,25 +23,41 @@ const Bag = (): JSX.Element => {
 
   const queryAllBag = async () => {
     setLoading(true);
-    await callAllBag(family.cod_familia)
+    await callAllBag(family.codigo_familiar)
       .then((data) => {
+        const aux: Array<boolean> = Array<boolean>();
+
+        data.map(item => aux.push(item.disponible));
+
+        setChecks(aux);
         setItems(data);
       })
       .finally(() => setLoading(false));
   };
 
-  const deleteItem = () => {
-
+  const deleteItemBag = async (id: number) => {
+    await deleteItem(id)
+      .then(() => {
+        setItems(items.filter(item => item.id_item != id));
+      })
   };
   const addItemQuery = async () => {
     setLoading(true);
-    await addItem(family.cod_familia, newName, newDate, newCaducable)
+    await addItem(family.codigo_familiar, newName, newDate, newCaducable)
       .then((data) => {
         setItems(items.concat(data));
         setIsVisibleModal(false);
+        setNewDate("");
       })
       .finally(() => setLoading(false));
   };
+
+
+  const checkItemQuery = async (id: number, value: boolean) => {
+    await checktItem(id, value)
+      .then()
+  };
+
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setNewName(event.target.value);
@@ -52,43 +69,52 @@ const Bag = (): JSX.Element => {
     event.preventDefault();
     setNewDate(event.target.value.slice(0, 10));
   };
+
+  const handleChangeCheck = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
+    checkItemQuery(id, event.target.checked)
+
+    setChecks(checks?.filter((item, id2) => {
+      if(id2 === id) item = event.target.checked
+    }));
+  };
+
   return (
     <div>
       <h2 className=" mt-6 mb-12 text-center text-5xl font-medium text-cyan-900">
         Mochila
       </h2>
       <div className=" mx-2">
-      <ul
-        role="list"
-        className=" max-w-lg mx-auto marker:text-sky-400 list-disc py-1 pl-5 space-y-3 text-slate-400 bg-slate-300 rounded-3xl"
-      >
-        {items.map((item) => {
-          return (
-            <li className=" mx-4" key={item.id_item}>
-              <div className=" w-full mx-3 my-5 flex justify-between ">
-                <p className=" w-24 my-auto font-bold text-cyan-900">{item.nombre}</p>
-                <p
-                  className={`w-28 my-auto text-center font-medium ${
-                    item.caduco ? "text-red-600" : "text-cyan-900"
-                  }`}
-                >
-                  {item.fecha=="null"?"-":item.fecha}
-                </p>
-                <input
-                  type="checkbox"
-                  name=""
-                  id=""
-                  className=" block my-3 rounded-full shadow-xl w-5 h-5 bg-gray-100 border-gray-600 focus:ring-blue-500"
-                  disabled={false}
-                />
-                <button onClick={deleteItem}>
-                  <img src={imgDelete} alt="eliminar" className=" w-6 mr-2" />
-                </button>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+        <ul
+          role="list"
+          className=" max-w-lg mx-auto marker:text-sky-400 list-disc py-1 pl-5 space-y-3 text-slate-400 bg-slate-300 rounded-3xl"
+        >
+          {items.map((item, i) => {
+            return (
+              <li className=" mx-4" key={item.id_item}>
+                <div className=" w-full mx-3 my-5 flex justify-between ">
+                  <p className=" w-24 my-auto font-bold text-cyan-900">{item.nombre}</p>
+                  <p
+                    className={`w-28 my-auto text-center font-medium ${item.caduco ? "text-red-600" : "text-cyan-900"
+                      }`}
+                  >
+                    {item.fecha == "null" ? "-" : item.fecha}
+                  </p>
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    className=" block my-3 rounded-full shadow-xl w-5 h-5 bg-gray-100 border-gray-600 focus:ring-blue-500"
+                    checked={checks?.find((check, idx) => idx === i)}
+                    onChange={(e)=> handleChangeCheck(e, item.id_item)}
+                  />
+                  <button onClick={e => deleteItemBag(item.id_item)}>
+                    <img src={imgDelete} alt="eliminar" className=" w-6 mr-2" />
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
       <h2 className=" mt-16 text-center text-xl font-medium text-cyan-900">
         Agregar objeto
@@ -121,13 +147,14 @@ const Bag = (): JSX.Element => {
           <div className=" flex mx-auto justify-between">
             <p className=" my-auto text-center text-lg font-medium text-cyan-900">Caducable</p>
             <input
-            type="checkbox"
-            name=""
-            id=""
-            className=" block my-3 mx-auto rounded-full shadow-xl w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500"
-            placeholder="rol"
-            onChange={handleChangeCaduce}
-          />
+              type="checkbox"
+              name=""
+              id=""
+              className=" block my-3 mx-auto rounded-full shadow-xl w-5 h-5 bg-gray-100 border-gray-300 focus:ring-blue-500"
+              placeholder="rol"
+
+              onChange={handleChangeCaduce}
+            />
           </div>
           {newCaducable ? <div className=" flex mx-auto justify-between">
             <p className=" my-auto text-center text-lg font-medium text-cyan-900">
@@ -141,9 +168,9 @@ const Bag = (): JSX.Element => {
               placeholder="nombre"
               onChange={handleChangeDate}
             />
-          </div>:<></>}
+          </div> : <></>}
           <button className=" block mx-auto my-3" onClick={addItemQuery}>
-            <img src={imgDone} alt="hecho"/>
+            <img src={imgDone} alt="hecho" />
           </button>
         </div>
       </ModalWrapper>

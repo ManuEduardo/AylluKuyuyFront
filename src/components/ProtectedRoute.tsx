@@ -9,7 +9,7 @@ export const ProtectedRoute = ({
 }: ProtectedRouteProps): JSX.Element => {
   const setFamily = useSetFamilyContext();
   const [storageCodFam, ] = useLocalStorage<number>(
-    "codigo_familia",
+    "codigo_familiar",
     0
   );
   if (storageCodFam == 0) {
@@ -17,7 +17,7 @@ export const ProtectedRoute = ({
   }
   useEffect(() => {
     setFamily({
-      cod_familia: storageCodFam,
+      codigo_familiar: storageCodFam,
       contrasena: 0,
       nombre: "Familia",
     });

@@ -19,13 +19,13 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     queryFamily();
   }, []);
-
+  
   const queryFamily = async () => {
     setLoading(true);
-    await callFamilyHome(family.cod_familia)
+    await callFamilyHome()
       .then((data) => {
         setFamily({
-          cod_familia: data.codigo_familiar,
+          codigo_familiar: data.codigo_familiar,
           contrasena: family.contrasena,
           nombre: data.nombre_familia,
         });
@@ -40,7 +40,7 @@ const Home = (): JSX.Element => {
           Cod. Familiar
         </h2>
         <h3 className=" mt-6 text-center text-3xl font-medium text-slate-50">
-          {family.cod_familia}
+          {family.codigo_familiar}
         </h3>
       </div>
       <div className=" flex mx-auto w-max mb-16">

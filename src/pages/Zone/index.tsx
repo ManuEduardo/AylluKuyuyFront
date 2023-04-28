@@ -23,7 +23,7 @@ const Zone = (): JSX.Element => {
 
   const queryAllZones = async () => {
     setLoading(true);
-    await callAllZones(family.cod_familia)
+    await callAllZones(family.codigo_familiar)
       .then((data) => {
         setZones(data);
       })
@@ -32,7 +32,7 @@ const Zone = (): JSX.Element => {
 
   const addZoneQuery = async () => {
     setLoading(true);
-    await addZone(family.cod_familia, newName, newDetaiil, selected)
+    await addZone(family.codigo_familiar, newName, newDetaiil, selected)
       .then((data) => {
         setZones(zones.concat(data));
         setIsVisibleModal(false);

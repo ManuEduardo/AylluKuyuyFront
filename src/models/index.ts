@@ -29,9 +29,16 @@ export type ButtonDefaultProps = {
 };
 
 export interface Family {
-  cod_familia: number;
+  codigo_familiar: number;
   contrasena: number;
   nombre: string;
+}
+
+export interface Croquis {
+  idcroquis: number;
+  idfamilia: number;
+  piso: number;
+  mapa: File;
 }
 
 export interface FamilyMember {
@@ -70,12 +77,12 @@ export interface ZoneModel {
 }
 
 export interface Item {
-  id_item: string;
+  id_item: number;
   nombre: string;
   fecha: string;
   caduce: boolean;
   caduco: boolean;
-  //existente: boolean;
+  disponible: boolean;
 }
 
 export interface Paso {
@@ -84,6 +91,14 @@ export interface Paso {
   detalle: string;
 }
 
+
+export interface ImageType {
+  file: File | null;
+  preview: string | null;
+}
+
+
+
 export const EmptyPaso: Paso = {
   paso: 0,
   idPaso: 0,
@@ -91,15 +106,16 @@ export const EmptyPaso: Paso = {
 };
 
 export const EmptyItem: Item = {
-  id_item: "",
+  id_item: 0,
   nombre: "",
   fecha: "",
   caduce: false,
   caduco: false,
+  disponible: false
 };
 
 export const EmptyFamily: Family = {
-  cod_familia: 0,
+  codigo_familiar: parseInt(localStorage.getItem("codigo_familiar") ?? "0"),
   contrasena: 0,
   nombre: "",
 };
@@ -111,6 +127,13 @@ export const EmptyZone: ZoneModel = {
   detalle: "",
   tipo: "",
 };
+
+export const EmptyCroquis: Croquis = {
+  idcroquis: 0,
+  idfamilia: 0,
+  piso: 0,
+  mapa: new File([], "")
+}
 
 export const ROUTES = {
   login: "/login",

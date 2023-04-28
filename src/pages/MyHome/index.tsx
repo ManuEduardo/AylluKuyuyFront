@@ -1,30 +1,76 @@
 import { useEffect, useState } from "react";
-import { Home, EmptyHome } from "../../models";
+import { Home, EmptyHome, ImageType, Croquis, EmptyCroquis } from "../../models";
 import imgMore from "../../assets/more.png";
+import imgDone from "../../assets/check.png";
 import imgCamera from "../../assets/camara.png";
-import { callInfoHouse } from "./services";
+import { callImage, callInfoHouse, sendCroquis } from "./services";
 import { useFamilyContext } from "../../context/FamilyProvider";
 import { ModalWrapper, Loading } from "../../components";
 
 const MyHome = (): JSX.Element => {
   const [myHome, setMyHome] = useState<Home>(EmptyHome)
   const [isVisibleUpPhoto, setIsVisibleUpPhoto] = useState<boolean>(false);
+  const [isVisibleConfirmPhoto, setIsVisibleConfirmPhoto] = useState<boolean>(false);
   const [isVisibleExample, setIsVisibleExample] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [mapa, setMapa] = useState<File>();
+  const [imageType, setImageType] = useState<ImageType>();
+  const [croquis, setCroquis] = useState("");
+  const [existPhoto, setExistPhoto] = useState<boolean>(false);
 
   const family = useFamilyContext();
   useEffect(() => {
     queryAllHomeInfo();
+    queryImage();
   }, []);
+
+
+  const queryImage = async () => {
+    await callImage(family.codigo_familiar)
+      .then((data) => {
+        if (data.size !== 0){
+          setExistPhoto(true)
+          setCroquis(URL.createObjectURL(data));
+        }
+      })
+  }
 
   const queryAllHomeInfo = async () => {
     setLoading(true);
-    await callInfoHouse(family.cod_familia)
-      .then((data) => {
+    await callInfoHouse(family.codigo_familiar)
+      .then((data: Home) => {
         setMyHome(data);
       })
       .finally(() => setLoading(false));
   };
+
+  const addCroquisQuery = async () => {
+    setLoading(true);
+    await sendCroquis(family.codigo_familiar, mapa)
+      .then((data) => {
+        setCroquis(URL.createObjectURL(data));
+        setExistPhoto(true)
+        setIsVisibleConfirmPhoto(false)
+        setIsVisibleUpPhoto(false)
+      })
+      .finally(() => setLoading(false));
+  }
+
+  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.files?.[0])
+    const file = event.target.files?.[0];
+    const reader = new FileReader();
+    if (file) {
+      setMapa(event.target.files?.[0])
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setImageType({ file, preview: reader.result as string });
+
+      }
+    }
+    setIsVisibleConfirmPhoto(true)
+
+  }
 
   const closeModal = () => {
     setIsVisibleUpPhoto(false);
@@ -66,37 +112,24 @@ const MyHome = (): JSX.Element => {
           </table>
         </div>
       </div>
-      <h2 className=" mt-16 text-center text-xl font-medium text-cyan-900">
-        Agregar piso
-      </h2>
-      <button
-        className="block p-4 mx-auto mt-6 bg-yellow-400/80 rounded-full shadow-xl hover:scale-110 transition-transform"
-        onClick={() => setIsVisibleUpPhoto(true)}
-      >
-        <img
-          src={imgMore}
-          alt="boton mas"
-          className=" w-4"
-        />
-      </button>
-
+      {!existPhoto ? (
+        <><h2 className=" mt-16 text-center text-xl font-medium text-cyan-900">Agregar piso</h2><button
+          className="block p-4 mx-auto mt-6 bg-yellow-400/80 rounded-full shadow-xl hover:scale-110 transition-transform"
+          onClick={() => setIsVisibleUpPhoto(true)}
+        >
+          <img
+            src={imgMore}
+            alt="boton mas"
+            className=" w-4" />
+        </button></>
+      ): null}
+      <img src={croquis} className="mt-10" />
       <ModalWrapper visible={isVisibleUpPhoto} onClose={closeModal} title="">
         <div>
           <h3 className=" mt-6 mb-12 text-center text-3xl font-medium text-cyan-900">
             Nuevo piso
           </h3>
-          <div className=" flex mx-auto justify-between">
-            <p className=" my-auto text-center text-lg font-medium text-cyan-900">
-              Piso
-            </p>
-            <input
-              type="number"
-              name=""
-              id=""
-              className=" block p-2 my-3 text-lg text-center font-semibold rounded-2xl shadow-lg"
-              placeholder="N° Piso"
-            />
-          </div>
+
           <p className=" my-8 text-center text-base font-medium text-cyan-900">
             Suba o tome la foto de un dibujo de su casa
           </p>
@@ -123,6 +156,7 @@ const MyHome = (): JSX.Element => {
       file:text-sm file:font-semibold
       file:bg-yellow-400 file:text-cyan-900
       hover:file:bg-cyan-500"
+              onChange={handleChangeFile}
             />
           </div>
           <a
@@ -140,6 +174,17 @@ const MyHome = (): JSX.Element => {
       >
         <div>
           <img src="./mapa.jpg" alt="" />
+        </div>
+      </ModalWrapper>
+      <ModalWrapper
+        visible={isVisibleConfirmPhoto}
+        onClose={() => setIsVisibleConfirmPhoto(false)}
+      >
+        <div>
+          {imageType?.preview && <img src={imageType.preview} />}
+          <button className=" block mx-auto my-3" onClick={addCroquisQuery}>
+            <img src={imgDone} alt="hecho" />
+          </button>
         </div>
       </ModalWrapper>
       <Loading loading={loading} />

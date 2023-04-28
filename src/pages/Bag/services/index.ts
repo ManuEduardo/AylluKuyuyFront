@@ -32,7 +32,7 @@ export const addItem = async (
   };
 
   type responseTypeDelete = {
-    idzona: number;
+    id_item: number;
   };
   export const deleteItem = async (id: number) => {
     const response: AxiosResponse<responseTypeDelete> = await axios.delete(
@@ -42,11 +42,10 @@ export const addItem = async (
   };
 
   type responseTypeCheckt = {
-    idzona: number;
+    id_item: number;
   };
-  export const checktItem= async (id: number) => {
-    const response: AxiosResponse<responseTypeCheckt> = await axios.delete(
-      `${URL}/mochila/item?iditem=${id}`
+  export const checktItem= async (id: number, value: boolean) => {
+    await axios.post(
+      `${URL}/mochila/item/disponible?idItem=${id}&disponible=${value}`
     );
-    return response.data;
   };
