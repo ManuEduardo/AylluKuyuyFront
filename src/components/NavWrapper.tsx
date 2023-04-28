@@ -26,7 +26,7 @@ const NavWrapper = (): JSX.Element => {
         <h1 className=" my-auto text-center text-xl text-slate-50 font-bold">
           App Ayllu Kukuy
         </h1>
-        <img src={imgLogo} alt="logo" className=" w-8" />
+        <img src={imgLogo} alt="logo" className=" w-8 hover:scale-110 transition-transform" onClick={() => navigate(ROUTES.home)}/>
       </div>
       <div
         className={
@@ -117,10 +117,9 @@ const NavWrapper = (): JSX.Element => {
                 </li>
                 <a
                   href="tel:+51 119"
-                  className="flex flex-col text-2xl font-semibold text-slate-50 py-2 px-4 mx-auto w-max bg-red-600 rounded-2xl hover:scale-110 hover:bg-green-500 transition-all shadow-2xl"
+                  className="flex flex-col text-2xl font-semibold text-slate-50 py-2 px-4 mx-auto w-max bg-red-400 rounded-2xl hover:scale-110 hover:bg-green-500 transition-all shadow-2xl"
                 >
-                  <p>Llama al</p>
-                  <p className=" mx-auto">119</p>
+                  <p className=" mx-auto">📞 119</p>
                 </a>
               </ul>
               <button
