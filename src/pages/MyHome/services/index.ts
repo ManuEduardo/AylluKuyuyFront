@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Croquis, Home } from "../../../models";
+import { Home } from "../../../models";
 
 const URL = import.meta.env.VITE_URL_API;
 

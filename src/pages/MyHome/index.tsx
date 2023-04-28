@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Home, EmptyHome, ImageType, Croquis, EmptyCroquis } from "../../models";
+import { Home, EmptyHome, ImageType} from "../../models";
 import imgMore from "../../assets/more.png";
 import imgDone from "../../assets/check.png";
 import imgCamera from "../../assets/camara.png";
@@ -46,7 +46,7 @@ const MyHome = (): JSX.Element => {
 
   const addCroquisQuery = async () => {
     setLoading(true);
-    await sendCroquis(family.codigo_familiar, mapa)
+    await sendCroquis(family.codigo_familiar, mapa?mapa:new File([],"image.jpg"))
       .then((data) => {
         setCroquis(URL.createObjectURL(data));
         setExistPhoto(true)
@@ -123,7 +123,10 @@ const MyHome = (): JSX.Element => {
             className=" w-4" />
         </button></>
       ): null}
-      <img src={croquis} className="mt-10" />
+      
+      <div className=" px-4">
+      <img src={croquis} className="my-10 mx-auto rounded-3xl" />
+      </div>
       <ModalWrapper visible={isVisibleUpPhoto} onClose={closeModal} title="">
         <div>
           <h3 className=" mt-6 mb-12 text-center text-3xl font-medium text-cyan-900">
