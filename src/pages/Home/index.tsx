@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import imgMore from "../../assets/more.png";
 import { Loading } from "../../components";
-import { callFamilyHome } from "./services";
-import { FamilyMember, ROUTES } from "../../models";
+import { callFamilyHome, callProductos } from "./services";
+import { EmptyItem, FamilyMember, Item, ROUTES } from "../../models";
 import {
   useFamilyContext,
   useSetFamilyContext,
@@ -15,11 +15,14 @@ const Home = (): JSX.Element => {
   const setFamily = useSetFamilyContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [familyMembers, setFamilyMembers] = useState<Array<FamilyMember>>([]);
+  const [products, setProducts] = useState<Array<Item>>([EmptyItem]);
 
   useEffect(() => {
     queryFamily();
+    queryProducts()
+
   }, []);
-  
+
   const queryFamily = async () => {
     setLoading(true);
     await callFamilyHome()
@@ -33,6 +36,16 @@ const Home = (): JSX.Element => {
       })
       .finally(() => setLoading(false));
   };
+
+  const queryProducts = async () => {
+    setLoading(true);
+    await callProductos()
+      .then((data) => {
+        setProducts(data);
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <div className=" h-screen">
       <div className=" max-w-3xl mx-auto bg-sky-300 mb-12 py-16 rounded-b-full">
@@ -78,6 +91,39 @@ const Home = (): JSX.Element => {
                       </td>
                       <td className="text-xl font-medium text-yellow-400">
                         <p className=" p-2">{member.roles}</p>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      {products.length == 0 ? (
+        <div className="mt-6 text-center text-4xl font-medium text-cyan-900">
+            Ningun Producto caducado
+        </div>
+      ) : (
+        <div className=" px-4">
+          <h2 className="pb-6 text-center text-2xl font-medium text-cyan-900">
+            Pronto a Caducar
+          </h2>
+          <div className=" p-4 bg-slate-100 mx-auto rounded-2xl shadow-xl">
+            <table className=" mx-auto border-separate border-spacing-x-10">
+              <tbody>
+                {products.map((item, i) => {
+                  return (
+                    <tr key={i}>
+                      <td className="text-xl font-medium text-cyan-900">
+                        <p className=" p-2">{item.nombre}</p>
+                      </td>
+                      <td className="text-xl font-medium text-yellow-400">
+                        <p className=" p-2">{item.fecha}</p>
                       </td>
                     </tr>
                   );

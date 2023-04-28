@@ -114,6 +114,7 @@ export const EmptyItem: Item = {
   disponible: false
 };
 
+
 export const EmptyFamily: Family = {
   codigo_familiar: parseInt(localStorage.getItem("codigo_familiar") ?? "0"),
   contrasena: 0,

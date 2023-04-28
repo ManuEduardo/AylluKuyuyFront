@@ -29,7 +29,7 @@ const Welcome = (): JSX.Element => {
           "LA FAMILIAS SON UNIDAS POR UN MEJOR PAIS"
         </h2>
         <img
-          src="./img1.png"
+          src="./119.jpg"
           alt="imagen familia"
           className=" max-w-lg w-11/12 mx-auto rounded-2xl"
         />
